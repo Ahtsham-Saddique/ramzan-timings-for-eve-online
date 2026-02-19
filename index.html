@@ -1,264 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ramzan Evening Timetable</title>
+  <meta charset="UTF-8">
+  <title>Ramzan Evening Timetable</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <style>
-        :root {
-            --primary: #4f46e5;
-            --secondary: #6366f1;
-            --bg: #f1f5f9;
-            --card: #ffffff;
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: #e5e7eb;
-            --radius: 14px;
-        }
+  <style>
+    :root {
+      --bg: #0b1020;
+      --glass: rgba(255, 255, 255, 0.08);
+      --border: rgba(255, 255, 255, 0.15);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --accent1: linear-gradient(135deg, #00f5ff, #7c3aed);
+      --accent2: linear-gradient(135deg, #22c55e, #06b6d4);
+      --accent3: linear-gradient(135deg, #f97316, #ef4444);
+      --radius: 18px;
+    }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-        }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background:
+        radial-gradient(circle at top, #1e293b, transparent 60%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-        }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px;
+    }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 40px 20px;
-            border-radius: var(--radius);
-            text-align: center;
-            margin-bottom: 40px;
-        }
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
 
-        .header h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-        }
+    .header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      background: var(--accent1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        .header p {
-            margin-top: 10px;
-            opacity: 0.9;
-        }
+    .header p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
 
-        /* Table Card */
-        .table-card {
-            background: var(--card);
-            border-radius: var(--radius);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-            overflow-x: auto;
-        }
+    /* Timetable Card */
+    .timetable {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 700px;
-        }
+    /* Day Row */
+    .day-row {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 24px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      backdrop-filter: blur(14px);
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
 
-        thead {
-            background: #eef2ff;
-        }
+    .day-row:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+    }
 
-        th {
-            padding: 18px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--primary);
-            font-size: 0.95rem;
-        }
+    /* Day Column */
+    .day {
+      font-size: 1.4rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent1);
+      border-radius: 14px;
+      color: #000;
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
 
-        td {
-            padding: 20px 18px;
-            vertical-align: top;
-        }
+    /* Classes */
+    .classes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 18px;
+    }
 
-        tbody tr {
-            border-top: 1px solid var(--border);
-            transition: background 0.3s ease;
-        }
+    .class-card {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
 
-        tbody tr:hover {
-            background: #f8fafc;
-        }
+    .class-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--accent2);
+      opacity: 0.15;
+    }
 
-        .day {
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text);
-        }
+    .class-card.alt::before {
+      background: var(--accent3);
+    }
 
-        /* Class Block */
-        .class-block {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-bottom: 12px;
-        }
+    .class-content {
+      position: relative;
+      z-index: 1;
+    }
 
-        .class-block:last-child {
-            margin-bottom: 0;
-        }
+    .time {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #a5f3fc;
+      margin-bottom: 6px;
+    }
 
-        .time {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
+    .course {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
 
-        .course {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
+    .teacher {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
 
-        .teacher {
-            font-size: 0.85rem;
-            color: var(--muted);
-        }
+    /* Footer */
+    footer {
+      margin-top: 80px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 25px;
+    }
 
-        /* Footer */
-        footer {
-            margin-top: 50px;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
+    /* Responsive */
+    @media (max-width: 768px) {
+      .day-row {
+        grid-template-columns: 1fr;
+      }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+      .day {
+        padding: 14px;
+        font-size: 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- Header -->
-    <div class="header">
-        <h1>Ramzan Evening Session Timetable</h1>
-        <p>Department of Computer Science</p>
+  <div class="header">
+    <h1>Ramzan Evening Timetable</h1>
+    <p>Computer Science — Evening Session</p>
+  </div>
+
+  <div class="timetable">
+
+    <!-- Monday -->
+    <div class="day-row">
+      <div class="day">Monday</div>
+      <div class="classes">
+        <div class="class-card">
+          <div class="class-content">
+            <div class="time">11:20 – 1:20</div>
+            <div class="course">CSC-313 HCI & Computer Graphic</div>
+            <div class="teacher">Ms. Iqra</div>
+          </div>
+        </div>
+        <div class="class-card alt">
+          <div class="class-content">
+            <div class="time">1:20 – 3:20</div>
+            <div class="course">CSC-312 Compiler Construction</div>
+            <div class="teacher">Dr. Shafiq ur Rehman</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Timetable -->
-    <div class="table-card">
-        <table>
-            <thead>
-                <tr>
-                    <th>Day</th>
-                    <th>Classes</th>
-                </tr>
-            </thead>
-            <tbody>
-
-                <!-- Monday -->
-                <tr>
-                    <td class="day">Monday</td>
-                    <td>
-                        <div class="class-block">
-                            <div class="time">11:20 – 1:20</div>
-                            <div class="course">CSC-313 HCI & Computer Graphic</div>
-                            <div class="teacher">Ms. Iqra</div>
-                        </div>
-                        <div class="class-block">
-                            <div class="time">1:20 – 3:20</div>
-                            <div class="course">CSC-312 Compiler Construction</div>
-                            <div class="teacher">Dr. Shafiq ur Rehman</div>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Tuesday -->
-                <tr>
-                    <td class="day">Tuesday</td>
-                    <td>
-                        <div class="class-block">
-                            <div class="time">12:00 – 2:00</div>
-                            <div class="course">CSC-353 Cyber Security</div>
-                            <div class="teacher">Dr. Zia</div>
-                        </div>
-                        <div class="class-block">
-                            <div class="time">2:00 – 4:00</div>
-                            <div class="course">CSC-311 Computer Architecture</div>
-                            <div class="teacher">Mr. Kamran</div>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Wednesday -->
-                <tr>
-                    <td class="day">Wednesday</td>
-                    <td>
-                        <div class="class-block">
-                            <div class="time">12:00 – 3:20</div>
-                            <div class="course">CSC-314 Parallel & Distributed Computing</div>
-                            <div class="teacher">Dr. Farhad</div>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Thursday -->
-                <tr>
-                    <td class="day">Thursday</td>
-                    <td>
-                        <div class="class-block">
-                            <div class="time">1:20 – 2:40</div>
-                            <div class="course">CSC-312 Compiler Construction</div>
-                            <div class="teacher">Dr. Shafiq ur Rehman</div>
-                        </div>
-                        <div class="class-block">
-                            <div class="time">2:40 – 4:00</div>
-                            <div class="course">CSC-311 Computer Architecture</div>
-                            <div class="teacher">Mr. Kamran</div>
-                        </div>
-                    </td>
-                </tr>
-
-                <!-- Friday -->
-                <tr>
-                    <td class="day">Friday</td>
-                    <td>
-                        <div class="class-block">
-                            <div class="time">11:00 – 12:00</div>
-                            <div class="course">CSC-313 HCI & Computer Graphic</div>
-                            <div class="teacher">Ms. Iqra</div>
-                        </div>
-                        <div class="class-block">
-                            <div class="time">12:00 – 1:00</div>
-                            <div class="course">CSC-353 Cyber Security</div>
-                            <div class="teacher">Dr. Zia</div>
-                        </div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
+    <!-- Tuesday -->
+    <div class="day-row">
+      <div class="day">Tuesday</div>
+      <div class="classes">
+        <div class="class-card">
+          <div class="class-content">
+            <div class="time">12:00 – 2:00</div>
+            <div class="course">CSC-353 Cyber Security</div>
+            <div class="teacher">Dr. Zia</div>
+          </div>
+        </div>
+        <div class="class-card alt">
+          <div class="class-content">
+            <div class="time">2:00 – 4:00</div>
+            <div class="course">CSC-311 Computer Architecture</div>
+            <div class="teacher">Mr. Kamran</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        © 2026 All Rights Reserved — <strong>Ahtsham Saddique</strong>
-    </footer>
+    <!-- Wednesday -->
+    <div class="day-row">
+      <div class="day">Wednesday</div>
+      <div class="classes">
+        <div class="class-card">
+          <div class="class-content">
+            <div class="time">12:00 – 3:20</div>
+            <div class="course">CSC-314 Parallel & Distributed Computing</div>
+            <div class="teacher">Dr. Farhad</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Thursday -->
+    <div class="day-row">
+      <div class="day">Thursday</div>
+      <div class="classes">
+        <div class="class-card">
+          <div class="class-content">
+            <div class="time">1:20 – 2:40</div>
+            <div class="course">CSC-312 Compiler Construction</div>
+            <div class="teacher">Dr. Shafiq ur Rehman</div>
+          </div>
+        </div>
+        <div class="class-card alt">
+          <div class="class-content">
+            <div class="time">2:40 – 4:00</div>
+            <div class="course">CSC-311 Computer Architecture</div>
+            <div class="teacher">Mr. Kamran</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Friday -->
+    <div class="day-row">
+      <div class="day">Friday</div>
+      <div class="classes">
+        <div class="class-card">
+          <div class="class-content">
+            <div class="time">11:00 – 12:00</div>
+            <div class="course">CSC-313 HCI & Computer Graphic</div>
+            <div class="teacher">Ms. Iqra</div>
+          </div>
+        </div>
+        <div class="class-card alt">
+          <div class="class-content">
+            <div class="time">12:00 – 1:00</div>
+            <div class="course">CSC-353 Cyber Security</div>
+            <div class="teacher">Dr. Zia</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    © 2026 All Rights Reserved — <strong>Ahtsham Saddique</strong>
+  </footer>
 
 </div>
 
